@@ -269,8 +269,8 @@ const canDisableRemoteConfig = (orgId: string) => {
 	const userOrgs = authService.getUserOrganizations()
 	const remotelyConfiguredOrgId = orgId || authService.getActiveOrganizationId()
 
-	if (!userOrgs || remotelyConfiguredOrgId) {
-		return true
+	if (!userOrgs || !remotelyConfiguredOrgId) {
+		return false
 	}
 
 	const org = userOrgs.find((org) => org.organizationId === remotelyConfiguredOrgId)
