@@ -52,9 +52,6 @@ export interface GlobalState {
 	workspaceRoots: WorkspaceRoot[] | undefined
 	primaryRootIndex: number
 	multiRootEnabled: boolean
-	lastDismissedInfoBannerVersion: number
-	lastDismissedModelBannerVersion: number
-	lastDismissedCliBannerVersion: number
 	nativeToolCallEnabled: boolean
 	remoteRulesToggles: ClineRulesToggles
 	remoteWorkflowToggles: ClineRulesToggles

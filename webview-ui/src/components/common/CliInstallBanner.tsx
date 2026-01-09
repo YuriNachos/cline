@@ -1,4 +1,3 @@
-import { EmptyRequest, Int64Request } from "@shared/proto/index.cline"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { Terminal, XIcon } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
@@ -7,8 +6,6 @@ import { useExtensionState } from "@/context/ExtensionStateContext"
 import { StateServiceClient } from "@/services/grpc-client"
 import { isMacOSOrLinux } from "@/utils/platformUtils"
 import { getAsVar, VSC_INACTIVE_SELECTION_BACKGROUND } from "@/utils/vscStyles"
-
-export const CURRENT_CLI_BANNER_VERSION = 1
 
 export const CliInstallBanner: React.FC = () => {
 	const { navigateToSettings, subagentsEnabled } = useExtensionState()
@@ -19,7 +16,7 @@ export const CliInstallBanner: React.FC = () => {
 	useEffect(() => {
 		const checkInstallation = async () => {
 			try {
-				const result = await StateServiceClient.checkCliInstallation(EmptyRequest.create())
+				const result = await StateServiceClient.checkCliInstallation({})
 				setIsClineCliInstalled(result.value)
 			} catch (error) {
 				console.error("Failed to check CLI installation:", error)
@@ -43,14 +40,14 @@ export const CliInstallBanner: React.FC = () => {
 		e?.stopPropagation()
 
 		// Update state to hide banner
-		StateServiceClient.updateCliBannerVersion(Int64Request.create({ value: CURRENT_CLI_BANNER_VERSION })).catch(console.error)
+		StateServiceClient.dismissBanner({ value: "cli-install-banner-1" }).catch(console.error)
 	}, [])
 
 	const handleInstallClick = async () => {
 		if (!isClineCliInstalled) {
 			try {
 				// Call the backend to initiate CLI installation
-				await StateServiceClient.installClineCli(EmptyRequest.create())
+				await StateServiceClient.installClineCli({})
 				// Banner will automatically close after successful installation
 				// setTimeout(() => {
 				// 	handleClose()
