@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.48.1
+
+### Patch Changes
+
+- 58d9c0a: Enable configuring an OTEL collector at runtime
+
 ## [3.48.0]
 
 ### Added
