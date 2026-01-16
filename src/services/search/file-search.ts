@@ -48,7 +48,7 @@ export async function executeRipgrepForFiles(
 			}
 
 			// Convert absolute path to a relative path from workspace root
-			const relativePath = path.relative(workspacePath, line)
+			const relativePath = path.relative(workspacePath, line).replace(/\\/g, "/")
 
 			// Add file result to array
 			fileResults.push({
