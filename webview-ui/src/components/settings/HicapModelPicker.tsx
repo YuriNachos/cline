@@ -196,16 +196,20 @@ const HicapModelPicker: React.FC<HicapModelPickerProps> = ({ isPopup, currentMod
 					</VSCodeTextField>
 					{isDropdownVisible && (
 						<div
+							aria-expanded="true"
+							aria-label="Select a model"
 							className="absolute top-[calc(100%-3px)] left-0 w-[calc(100%-2px)]
 							max-h-[200px] overflow-y-auto bg-[var(--vscode-dropdown-background)]
 							border border-[var(--vscode-list-activeSelectionBackground)]
 							rounded-b-[3px]"
 							ref={dropdownListRef}
+							role="listbox"
 							style={{ zIndex: HICAP_MODEL_PICKER_Z_INDEX - 1 }}>
 							{modelSearchResults.map((item, index) => {
 								const isFavorite = (favoritedModelIds || []).includes(item.id)
 								return (
 									<div
+										aria-selected={index === selectedIndex}
 										className={`p-[5px_10px] cursor-pointer break-all whitespace-normal ${
 											index === selectedIndex ? "bg-[var(--vscode-list-activeSelectionBackground)]" : ""
 										} hover:bg-[var(--vscode-list-activeSelectionBackground)]`}
@@ -215,7 +219,8 @@ const HicapModelPicker: React.FC<HicapModelPickerProps> = ({ isPopup, currentMod
 											setIsDropdownVisible(false)
 										}}
 										onMouseEnter={() => setSelectedIndex(index)}
-										ref={(el) => (itemRefs.current[index] = el)}>
+										ref={(el) => (itemRefs.current[index] = el)}
+										role="option">
 										<div className="flex justify-between items-center [&_.model-item-highlight]:bg-[var(--vscode-editor-findMatchHighlightBackground)] [&_.model-item-highlight]:text-inherit">
 											<span dangerouslySetInnerHTML={{ __html: item.html }} />
 											<StarIcon
