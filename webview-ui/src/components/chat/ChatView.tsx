@@ -399,6 +399,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 					scrollBehavior={scrollBehavior}
 					selectFilesAndImages={selectFilesAndImages}
 					shouldDisableFilesAndImages={shouldDisableFilesAndImages}
+					supportsImages={selectedModelInfo.supportsImages}
 				/>
 			</footer>
 		</ChatLayout>

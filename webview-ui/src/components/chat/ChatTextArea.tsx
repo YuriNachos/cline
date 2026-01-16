@@ -89,6 +89,7 @@ interface ChatTextAreaProps {
 	onSend: () => void
 	onSelectFilesAndImages: () => void
 	shouldDisableFilesAndImages: boolean
+	supportsImages?: boolean
 	onHeightChange?: (height: number) => void
 	onFocusChange?: (isFocused: boolean) => void
 }
@@ -256,6 +257,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			onSend,
 			onSelectFilesAndImages,
 			shouldDisableFilesAndImages,
+			supportsImages = true,
 			onHeightChange,
 			onFocusChange,
 		},
@@ -903,6 +905,24 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					const [type, subtype] = item.type.split("/")
 					return type === "image" && acceptedTypes.includes(subtype)
 				})
+
+				// Check if model supports images
+				if (!supportsImages && imageItems.length > 0) {
+					e.preventDefault()
+					// Show error message that model doesn't support images
+					if (!showUnsupportedFileError) {
+						setShowUnsupportedFileError(true)
+					}
+					if (unsupportedFileTimerRef.current) {
+						clearTimeout(unsupportedFileTimerRef.current)
+					}
+					unsupportedFileTimerRef.current = setTimeout(() => {
+						setShowUnsupportedFileError(false)
+						unsupportedFileTimerRef.current = null
+					}, 3000)
+					return
+				}
+
 				if (!shouldDisableFilesAndImages && imageItems.length > 0) {
 					e.preventDefault()
 					const imagePromises = imageItems.map((item) => {
@@ -954,6 +974,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			},
 			[
 				shouldDisableFilesAndImages,
+				supportsImages,
 				setSelectedImages,
 				selectedImages,
 				selectedFiles,
@@ -961,6 +982,8 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				setInputValue,
 				inputValue,
 				showDimensionErrorMessage,
+				setShowUnsupportedFileError,
+				showUnsupportedFileError,
 			],
 		)
 
@@ -1369,6 +1392,22 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				const [type, subtype] = file.type.split("/")
 				return type === "image" && acceptedTypes.includes(subtype)
 			})
+
+			// Check if model supports images
+			if (!supportsImages && imageFiles.length > 0) {
+				// Show error message that model doesn't support images
+				if (!showUnsupportedFileError) {
+					setShowUnsupportedFileError(true)
+				}
+				if (unsupportedFileTimerRef.current) {
+					clearTimeout(unsupportedFileTimerRef.current)
+				}
+				unsupportedFileTimerRef.current = setTimeout(() => {
+					setShowUnsupportedFileError(false)
+					unsupportedFileTimerRef.current = null
+				}, 3000)
+				return
+			}
 
 			if (shouldDisableFilesAndImages || imageFiles.length === 0) {
 				return
