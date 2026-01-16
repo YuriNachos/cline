@@ -48,7 +48,7 @@ export const HicapProvider = ({ showModelOptions, isPopup, currentMode }: HicapP
 			</div>
 
 			{showModelOptions && (
-				<div style={{ margin: "10px 0 0 0" }}>
+				<div style={{ margin: "10px 0 0 0", paddingBottom: "210px" }}>
 					<HicapModelPicker currentMode={currentMode} isPopup={isPopup} />
 				</div>
 			)}
