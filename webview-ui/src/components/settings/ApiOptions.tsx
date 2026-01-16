@@ -323,9 +323,10 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 						)}
 					</VSCodeTextField>
 					{isDropdownVisible && (
-						<ProviderDropdownList ref={dropdownListRef}>
+						<ProviderDropdownList aria-label="Select API provider" ref={dropdownListRef} role="listbox">
 							{providerSearchResults.map((item, index) => (
 								<ProviderDropdownItem
+									aria-selected={index === selectedIndex}
 									data-testid={`provider-option-${item.value}`}
 									isSelected={index === selectedIndex}
 									key={item.value}
@@ -333,7 +334,8 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 									onMouseEnter={() => setSelectedIndex(index)}
 									ref={(el) => {
 										itemRefs.current[index] = el
-									}}>
+									}}
+									role="option">
 									<span>{item.html}</span>
 								</ProviderDropdownItem>
 							))}
