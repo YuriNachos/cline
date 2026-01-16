@@ -120,6 +120,7 @@ const AutoApproveModal: React.FC<AutoApproveModalProps> = ({ isVisible, setIsVis
 				{/* Notifications toggle */}
 				<div className="flex items-center gap-2">
 					<VSCodeCheckbox
+						aria-label="Enable notifications for auto-approved commands"
 						checked={autoApprovalSettings.enableNotifications}
 						onChange={async (e: any) => {
 							const checked = e.target.checked === true
