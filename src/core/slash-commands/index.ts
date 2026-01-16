@@ -90,7 +90,7 @@ export async function parseSlashCommands(
 	//   - Partial words: "foo/bar" - same reason
 	//
 	// Only ONE slash command per message is processed (first match found).
-	const slashCommandInTextRegex = /(^|\s)\/([a-zA-Z0-9_.-]+)(?=\s|$)/
+	const slashCommandInTextRegex = /(^|\s)\/([\p{L}\p{N}_.-]+)(?=\s|$)/u
 
 	// Helper function to calculate positions and remove slash command from text
 	const removeSlashCommand = (

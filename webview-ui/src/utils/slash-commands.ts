@@ -70,11 +70,11 @@ export function getWorkflowCommands(
 // Regex for detecting slash commands in text
 // Must be at start of string OR preceded by whitespace to avoid matching URLs/paths
 // e.g., matches "/newtask" or "text /newtask" but not "http://example.com/newtask"
-export const slashCommandRegex = /(^|\s)(\/[a-zA-Z0-9_.-]+)(?=\s|$)/
-export const slashCommandRegexGlobal = new RegExp(slashCommandRegex.source, "g")
+export const slashCommandRegex = /(^|\s)(\/[\p{L}\p{N}_.-]+)(?=\s|$)/u
+export const slashCommandRegexGlobal = new RegExp(slashCommandRegex.source, "gu")
 // Regex for detecting a slash command at the end of text (for deletion)
 // Must be at start OR preceded by whitespace, captures the whole command including slash
-export const slashCommandDeleteRegex = /(^|\s)(\/[a-zA-Z0-9_.-]+)$/
+export const slashCommandDeleteRegex = /(^|\s)(\/[\p{L}\p{N}_.-]+)$/u
 
 /**
  * Removes a slash command at the cursor position
@@ -133,7 +133,7 @@ export function shouldShowSlashCommandsMenu(text: string, cursorPosition: number
 	// Check if there's already a valid slash command earlier in the text.
 	// A valid earlier slash command is one that: starts at beginning or after whitespace,
 	// and is followed by whitespace (meaning it's complete).
-	const firstSlashCommandRegex = /(^|\s)\/[a-zA-Z0-9_.-]+\s/
+	const firstSlashCommandRegex = /(^|\s)\/[\p{L}\p{N}_.-]+\s/u
 	const textBeforeCurrentSlash = text.slice(0, slashIndex)
 	if (firstSlashCommandRegex.test(textBeforeCurrentSlash)) {
 		return false
