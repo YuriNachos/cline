@@ -2,7 +2,14 @@ textarea:focus {
 	outline: 1.5px solid var(--vscode-focusBorder, #007fd4);
 }
 
-vscode-button::part(control):focus {
+/* Show focus indicator for keyboard navigation (Tab + Enter) */
+vscode-button::part(control):focus-visible {
+	outline: 1.5px solid var(--vscode-focusBorder);
+	outline-offset: 1px;
+}
+
+/* Hide focus indicator for mouse clicks */
+vscode-button::part(control):focus:not(:focus-visible) {
 	outline: none;
 }
 
