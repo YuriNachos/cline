@@ -903,7 +903,11 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					const [type, subtype] = item.type.split("/")
 					return type === "image" && acceptedTypes.includes(subtype)
 				})
-				if (!shouldDisableFilesAndImages && imageItems.length > 0) {
+
+				// When both text and image are present (e.g., from OneNote/Office apps), prefer the text
+				// unless the text is empty or just whitespace
+				const hasMeaningfulText = pastedText.trim().length > 0
+				if (!shouldDisableFilesAndImages && imageItems.length > 0 && !hasMeaningfulText) {
 					e.preventDefault()
 					const imagePromises = imageItems.map((item) => {
 						return new Promise<string | null>((resolve) => {
